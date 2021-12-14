@@ -1,0 +1,15 @@
+.input {
+  display: flex;
+  input {
+    width: 1170px;
+    height: 40px;
+    border-radius: 3px;
+    margin-right: 8px;
+    border: 1px solid #ccc;
+    padding-left: 0.5rem;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+  }
+}
