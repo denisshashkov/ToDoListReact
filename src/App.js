@@ -1,80 +1,90 @@
-import { Fragment, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./components/navbar/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
 import Input from "./components/UI/Input";
 import TodoList from "./components/todoList/ToDoList";
+import { Context } from "./store/context";
 import Button from "./components/UI/Button";
-
+import PostService from "./API/PostService";
+import axios from "axios";
 function App() {
   const [todos, setTodos] = useState([]);
   const [todoTitle, setToDoTitle] = useState("");
-  const [httpError, setHttpError] = useState(null);
+  const [todosIsloading, setTodosIsLoading] = useState(false);
 
   useEffect(() => {
-    const fetchTodos = async () => {
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/todos?_limit=5"
-      );
-
-      const responseData = await response.json();
-      const loadedTodos = [];
-      for (const key in responseData) {
-        loadedTodos.push({
-          id: key,
-          title: responseData[key].title,
-          complete: responseData[key].complete,
-        });
-      }
-      setTodos(loadedTodos);
-    };
-
-    fetchTodos().catch((error) => {
-      setHttpError(error.message);
-    });
+    fetchTodos();
   }, []);
 
-  if (httpError) {
-    return (
-      <section className="fetchTodoError">
-        <p>{httpError}</p>
-      </section>
-    );
-  }
+  const fetchTodos = async () => {
+    setTodosIsLoading(true);
+    const getTodos = await PostService.getAll();
+    setTodos(getTodos);
+    setTodosIsLoading(false);
+  };
 
-  const addToDo = (e) => {
+  const postToDo = async (e) => {
     e.preventDefault();
     if (todoTitle.length !== 0) {
-      setTodos([
-        ...todos,
-        {
-          id: Date.now(),
-          title: todoTitle,
-          completed: false,
-        },
-      ]);
+      try {
+        const response = await axios.post(
+          "https://jsonplaceholder.typicode.com/todos",
+          {
+            title: todoTitle,
+            completed: false,
+          }
+        );
+        console.log(response.data);
+
+        setTodos([response.data, ...todos]);
+      } catch (error) {
+        console.log(error);
+      }
+
       setToDoTitle("");
     }
   };
 
+  const removeToDo = (id) => {
+    setTodos(
+      todos.filter((item) => {
+        return item.id !== id;
+      })
+    );
+  };
+
+  const toggleToDo = (id) => {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          todo.completed = !todo.completed;
+        }
+        return todo;
+      })
+    );
+  };
+
   return (
-    <Fragment>
-      <Navbar />
-      <div className="main-wrapper">
-        <Sidebar />
-        <div className="main-content">
-          <form className="form" onSubmit={addToDo}>
-            <Input
-              type="text"
-              placeholder="+ Add a task, press Enter to save"
-              value={todoTitle}
-              onChange={(e) => setToDoTitle(e.target.value)}
-            />
-            <Button>Add</Button>
-          </form>
-          <TodoList todos={todos} />
+    <Context.Provider value={{ toggleToDo, removeToDo }}>
+      <div>
+        <Navbar />
+        <div className="main-wrapper">
+          <Sidebar />
+          <div className="main-content">
+            <form className="form" onSubmit={postToDo}>
+              <Input
+                type="text"
+                value={todoTitle}
+                placeholder="+ Add a task, press Enter to save"
+                onChange={(e) => setToDoTitle(e.target.value)}
+              />
+              <Button>Add</Button>
+            </form>
+            {todosIsloading ? <h1>загрузка...</h1> : <TodoList todos={todos} />}
+          </div>
         </div>
       </div>
-    </Fragment>
+    </Context.Provider>
   );
 }
 
