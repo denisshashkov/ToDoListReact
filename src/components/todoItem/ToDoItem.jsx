@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { Context } from "../../store/context";
 import CopyItemIcon from "./CopyItemIcon";
 import Deleteitemicon from "./DeleteItemIcon";
 import Edititemicon from "./EditItemIcon";
 import classes from "./ToDoItem.module.scss";
 
 const TodoItem = ({ title, id, completed }) => {
-  const [checked, setChecked] = useState(completed);
+  const { toggleToDo, removeToDo } = useContext(Context);
 
   const cls = [classes.todo];
-  if (checked) {
+  if (completed) {
     cls.push(classes.completed);
   }
 
@@ -16,15 +17,21 @@ const TodoItem = ({ title, id, completed }) => {
     <li className={cls.join(" ")}>
       <input
         type="checkbox"
-        checked={checked}
+        checked={completed}
         className={classes.todo_checkbox}
-        onChange={() => setChecked(!checked)}
+        onChange={() => toggleToDo(id)}
       />
       <span className={classes.todo_title}>{title}</span>
       <div className={classes.todo_icon_wrapper}>
-        <Edititemicon />
-        <CopyItemIcon />
-        <Deleteitemicon />
+        <button>
+          <Edititemicon />
+        </button>
+        <button>
+          <CopyItemIcon />
+        </button>
+        <button onClick={() => removeToDo(id)}>
+          <Deleteitemicon />
+        </button>
       </div>
     </li>
   );
