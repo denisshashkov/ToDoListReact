@@ -7,6 +7,7 @@ import { Context } from "./store/context";
 import Button from "./components/UI/Button";
 import PostService from "./API/PostService";
 import axios from "axios";
+import CompletedList from "./components/competedList/CompletedList";
 function App() {
   const [todos, setTodos] = useState([]);
   const [todoTitle, setToDoTitle] = useState("");
@@ -20,6 +21,7 @@ function App() {
     setTodosIsLoading(true);
     const getTodos = await PostService.getAll();
     setTodos(getTodos);
+
     setTodosIsLoading(false);
   };
 
@@ -71,16 +73,25 @@ function App() {
         <div className="main-wrapper">
           <Sidebar />
           <div className="main-content">
-            <form className="form" onSubmit={postToDo}>
-              <Input
-                type="text"
-                value={todoTitle}
-                placeholder="+ Add a task, press Enter to save"
-                onChange={(e) => setToDoTitle(e.target.value)}
-              />
-              <Button>Add</Button>
-            </form>
-            {todosIsloading ? <h1>загрузка...</h1> : <TodoList todos={todos} />}
+            <div className="main-content-left">
+              <form className="form" onSubmit={postToDo}>
+                <Input
+                  type="text"
+                  value={todoTitle}
+                  placeholder="+ Add a task, press Enter to save"
+                  onChange={(e) => setToDoTitle(e.target.value)}
+                />
+                <Button>Add</Button>
+              </form>
+              {todosIsloading ? (
+                <h1>загрузка...</h1>
+              ) : (
+                <TodoList todos={todos} />
+              )}
+            </div>
+            <div className="main-content-right">
+              <CompletedList todos={todos} />
+            </div>
           </div>
         </div>
       </div>

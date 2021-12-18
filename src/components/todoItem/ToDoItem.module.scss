@@ -1,22 +1,18 @@
 .todo {
-  position: relative;
   display: flex;
   align-items: center;
-
-  height: 48px;
+  height: auto;
   border-radius: 3px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
-  padding-left: 0.5rem;
+  padding: 0.5rem;
 
   &_checkbox {
     margin-right: 10px;
     cursor: pointer;
   }
   &_icon_wrapper {
-    position: absolute;
-    right: 0.5rem;
-    float: right;
+    margin-left: auto;
     width: 76px;
     display: flex;
     justify-content: space-between;

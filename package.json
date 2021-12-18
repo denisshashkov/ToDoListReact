@@ -1,6 +1,6 @@
 {
   "name": "todo-list-react",
-  "homepage": "https://denisshashkov.github.io/ToDoListReact ",
+  "homepage": "https://denisshashkov.github.io/ToDoListReact",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

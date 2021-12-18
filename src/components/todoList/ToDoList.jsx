@@ -4,18 +4,16 @@ import TodoItem from "../todoItem/ToDoItem";
 import classes from "./ToDoList.module.scss";
 
 const Todolist = ({ todos }) => {
-  const completedTodo = { completed: false };
-
-  const completedArray = todos.filter((item) => {
-    return item.completed === completedTodo.completed;
+  const unCompletedArray = todos.filter((item) => {
+    return item.completed === false;
   });
 
   return (
     <Fragment>
       <span className={classes.total}>Total:{todos.length}</span>
-      <h3>To do ({completedArray.length})</h3>
+      <h3>To do ({unCompletedArray.length})</h3>
       <ul>
-        {todos.map((item) => (
+        {unCompletedArray.map((item) => (
           <TodoItem key={item.id} {...item} />
         ))}
       </ul>
