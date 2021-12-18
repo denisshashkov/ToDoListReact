@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
+import { Context } from "./context/context";
+import PostService from "./API/PostService";
 import Navbar from "./components/navbar/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
 import Input from "./components/UI/Input";
 import TodoList from "./components/todoList/ToDoList";
-import { Context } from "./store/context";
-import Button from "./components/UI/Button";
-import PostService from "./API/PostService";
-import axios from "axios";
 import CompletedList from "./components/competedList/CompletedList";
+import Button from "./components/UI/Button";
+import axios from "axios";
 function App() {
   const [todos, setTodos] = useState([]);
   const [todoTitle, setToDoTitle] = useState("");
@@ -21,7 +21,6 @@ function App() {
     setTodosIsLoading(true);
     const getTodos = await PostService.getAll();
     setTodos(getTodos);
-
     setTodosIsLoading(false);
   };
 
@@ -32,6 +31,7 @@ function App() {
         const response = await axios.post(
           "https://jsonplaceholder.typicode.com/todos",
           {
+            id: Date.now(),
             title: todoTitle,
             completed: false,
           }
@@ -70,8 +70,8 @@ function App() {
     <Context.Provider value={{ toggleToDo, removeToDo }}>
       <div>
         <Navbar />
+        <Sidebar />
         <div className="main-wrapper">
-          <Sidebar />
           <div className="main-content">
             <div className="main-content-left">
               <form className="form" onSubmit={postToDo}>

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Context } from "../../store/context";
+import { Context } from "../../context/context";
 import CopyItemIcon from "./CopyItemIcon";
 import Deleteitemicon from "./DeleteItemIcon";
 import Edititemicon from "./EditItemIcon";
