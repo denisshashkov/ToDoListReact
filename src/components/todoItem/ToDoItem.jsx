@@ -1,12 +1,11 @@
 import React, { Fragment, useContext } from "react";
 import { Context } from "../../context/context";
-import CopyItemIcon from "./CopyItemIcon";
 import DeleteItemIcon from "./DeleteItemIcon";
 import EditItemIcon from "./EditItemIcon";
 import classes from "./ToDoItem.module.scss";
 
 const TodoItem = ({ title, id, completed }) => {
-  const { toggleToDo, removeToDo } = useContext(Context);
+  const { toggleToDo, removeToDo, editToDo } = useContext(Context);
 
   const cls = [classes.todo];
   if (completed) {
@@ -25,11 +24,11 @@ const TodoItem = ({ title, id, completed }) => {
       <div className={classes.todo_icon_wrapper}>
         {completed === false ? (
           <Fragment>
-            <button className={classes.todo_button}>
+            <button
+              className={classes.todo_button}
+              onClick={() => editToDo(title, id)}
+            >
               <EditItemIcon />
-            </button>
-            <button className={classes.todo_button}>
-              <CopyItemIcon />
             </button>
           </Fragment>
         ) : (
