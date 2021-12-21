@@ -31,13 +31,12 @@ function App() {
         const response = await axios.post(
           "https://jsonplaceholder.typicode.com/todos",
           {
-            id: Date.now(),
+            userId: Date.now(),
             title: todoTitle,
             completed: false,
           }
         );
         console.log(response.data);
-
         setTodos([response.data, ...todos]);
       } catch (error) {
         console.log(error);
@@ -55,6 +54,11 @@ function App() {
     );
   };
 
+  const editToDo = async (title, id) => {
+    removeToDo(id);
+    setToDoTitle(title);
+  };
+
   const toggleToDo = (id) => {
     setTodos(
       todos.map((todo) => {
@@ -67,7 +71,7 @@ function App() {
   };
 
   return (
-    <Context.Provider value={{ toggleToDo, removeToDo }}>
+    <Context.Provider value={{ toggleToDo, removeToDo, editToDo }}>
       <div>
         <Navbar />
         <Sidebar />
