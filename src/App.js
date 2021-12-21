@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Context } from "./context/context";
-import PostService from "./API/PostService";
+import ToDoService from "./API/ToDoService";
 import Navbar from "./components/navbar/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
 import Input from "./components/UI/Input";
@@ -19,7 +19,7 @@ function App() {
 
   const fetchTodos = async () => {
     setTodosIsLoading(true);
-    const getTodos = await PostService.getAll();
+    const getTodos = await ToDoService.getAll();
     setTodos(getTodos);
     setTodosIsLoading(false);
   };
