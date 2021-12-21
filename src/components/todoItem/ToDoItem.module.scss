@@ -13,12 +13,18 @@
   }
   &_icon_wrapper {
     margin-left: auto;
-    width: 76px;
+
     display: flex;
     justify-content: space-between;
   }
   &_title {
     font-family: "OpenSans";
+  }
+  &_button {
+    margin-right: 5px;
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }
 

@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import { Context } from "../../context/context";
 import CopyItemIcon from "./CopyItemIcon";
-import Deleteitemicon from "./DeleteItemIcon";
-import Edititemicon from "./EditItemIcon";
+import DeleteItemIcon from "./DeleteItemIcon";
+import EditItemIcon from "./EditItemIcon";
 import classes from "./ToDoItem.module.scss";
 
 const TodoItem = ({ title, id, completed }) => {
@@ -23,14 +23,20 @@ const TodoItem = ({ title, id, completed }) => {
       />
       <span className={classes.todo_title}>{title}</span>
       <div className={classes.todo_icon_wrapper}>
-        <button>
-          <Edititemicon />
-        </button>
-        <button>
-          <CopyItemIcon />
-        </button>
-        <button onClick={() => removeToDo(id)}>
-          <Deleteitemicon />
+        {completed === false ? (
+          <Fragment>
+            <button className={classes.todo_button}>
+              <EditItemIcon />
+            </button>
+            <button className={classes.todo_button}>
+              <CopyItemIcon />
+            </button>
+          </Fragment>
+        ) : (
+          ""
+        )}
+        <button className={classes.todo_button} onClick={() => removeToDo(id)}>
+          <DeleteItemIcon />
         </button>
       </div>
     </li>
